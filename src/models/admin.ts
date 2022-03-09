@@ -30,7 +30,7 @@ const getAllAdmin = async (): Promise<Admins> => {
   return allAdmin
 }
 
-const getAdmin = async (id: number): Promise<Admin> => {
+const getAdmin = async (id: number): Promise<Admin | null> => {
   const admin = await prisma.admin.findUnique({
     where: {
       id: id
@@ -50,11 +50,26 @@ const getAdmin = async (id: number): Promise<Admin> => {
     }
   })
 
-  return admin as Admin
+  return admin
+}
+
+const updateAdmin = async (id: number, body: AdminBody): Promise<any> => {
+  const editAdmin = await prisma.admin.update({
+    where: { id },
+    data: { ...body }
+  })
+  return editAdmin
+}
+
+const deleteAdmin = async (id: number): Promise<any> => {
+  const delAdmin = await prisma.admin.delete({ where: { id } })
+  return delAdmin
 }
 
 export = {
   createAdmin,
   getAllAdmin,
-  getAdmin
+  getAdmin,
+  updateAdmin,
+  deleteAdmin
 }

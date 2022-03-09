@@ -1,18 +1,17 @@
 import express from 'express'
-import rescue from 'express-rescue'
 import Admin from '../controllers/admin'
-import validateAdmin from '../middlewares/auth/validateAdmin'
+import validateAdmin from '../middlewares/validate/validateAdmin'
 
 const AdminRouter = express.Router()
 
-AdminRouter.post('/', rescue(validateAdmin), Admin.createAdmin)
+AdminRouter.post('/', validateAdmin, Admin.createAdmin)
 
 AdminRouter.get('/', Admin.getAllAdmin)
 
 AdminRouter.get('/:id', Admin.getAdmin)
 
-AdminRouter.put('/:id')
+AdminRouter.put('/:id', Admin.updateAdmin)
 
-AdminRouter.delete('/:id')
+AdminRouter.delete('/:id', Admin.deleteAdmin)
 
-export = AdminRouter
+export default AdminRouter
