@@ -15,7 +15,7 @@ model Admin {
   name  String
   email String  @unique
   user  String  @unique
-  passowrd  Int
+  password  String
   institution Institution[]
 }
 
