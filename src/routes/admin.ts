@@ -1,9 +1,11 @@
 import express from 'express'
+import rescue from 'express-rescue'
 import Admin from '../controllers/admin'
+import validateAdmin from '../middlewares/auth/validateAdmin'
 
 const AdminRouter = express.Router()
 
-AdminRouter.post('/', Admin.createAdmin)
+AdminRouter.post('/', rescue(validateAdmin), Admin.createAdmin)
 
 AdminRouter.get('/', Admin.getAllAdmin)
 
