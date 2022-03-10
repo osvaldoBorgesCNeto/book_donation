@@ -23,6 +23,8 @@ model Institution {
   id    Int     @default(autoincrement()) @id
   name String @unique
   address String
+  city String
+  state String
   admin Admin @relation(fields: [adminId], references: [id])
   adminId Int
   book Book[]
@@ -30,9 +32,14 @@ model Institution {
 
 model Book {
   id    Int     @default(autoincrement()) @id
+  name String
   edition String
+  year Int
+  release_date DateTime
   condition String
   institution Institution @relation(fields: [institutionId], references: [id])
   institutionId Int
+  quantity Int
+  book_address String
 }
 

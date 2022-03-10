@@ -17,28 +17,28 @@ const getAllAdmin = async (_req: Request, res: Response, _next: NextFunction): P
 }
 
 const getAdmin = async (req: Request, res: Response, _next: NextFunction): Promise<Admin> => {
-  const { id } = req.params
+  const id: number = parseInt(req.params.id)
 
-  const admin = await AdminModel.getAdmin(parseInt(id))
+  const admin = await AdminModel.getAdmin(id)
 
   return res.status(200).json(admin)
 }
 
 const updateAdmin = async (req: Request, res: Response, _next: NextFunction): Promise<Admin> => {
-  const { id } = req.params
+  const id: number = parseInt(req.params.id)
   const admin: AdminBody = req.body
 
-  const editAdmin = await AdminModel.updateAdmin(parseInt(id), admin)
+  const editAdmin = await AdminModel.updateAdmin(id, admin)
 
   return res.status(200).json(editAdmin)
 }
 
 const deleteAdmin = async (req: Request, res: Response, _next: NextFunction): Promise<Admin> => {
-  const { id } = req.params
+  const id: number = parseInt(req.params.id)
 
-  await AdminModel.deleteAdmin(parseInt(id))
+  await AdminModel.deleteAdmin(id)
 
-  return res.status(201).json({ message: 'Admin delete succesfully' })
+  return res.status(204).json({ message: 'Admin delete succesfully' })
 }
 
 export = {

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { Admin, AdminBody, Admins } from '../interfaces/admin'
+import { Admin, AdminBody, Admins, BaseAdmin } from '../interfaces/admin'
 const prisma = new PrismaClient()
 
 const createAdmin = async (body: AdminBody): Promise<any> => {
@@ -53,17 +53,20 @@ const getAdmin = async (id: number): Promise<Admin | null> => {
   return admin
 }
 
-const updateAdmin = async (id: number, body: AdminBody): Promise<any> => {
+const updateAdmin = async (id: number, body: AdminBody): Promise<BaseAdmin | null> => {
   const editAdmin = await prisma.admin.update({
     where: { id },
-    data: { ...body }
+    data: {
+      name: body.name,
+      email: body.email,
+      password: body.password
+    }
   })
   return editAdmin
 }
 
-const deleteAdmin = async (id: number): Promise<any> => {
-  const delAdmin = await prisma.admin.delete({ where: { id } })
-  return delAdmin
+const deleteAdmin = async (id: number): Promise<void> => {
+  await prisma.admin.delete({ where: { id } })
 }
 
 export = {
