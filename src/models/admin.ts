@@ -2,9 +2,13 @@ import { PrismaClient } from '@prisma/client'
 import { Admin, AdminBody, Admins, BaseAdmin } from '../interfaces/admin'
 const prisma = new PrismaClient()
 
-const createAdmin = async (body: AdminBody): Promise<any> => {
+const createAdmin = async (body: AdminBody, token: string): Promise<any> => {
   const result = await prisma.admin.create({
-    data: { ...body }
+    data: {
+      ...body,
+      confirmToken: token,
+      confirm: false
+    }
   })
 
   return result
@@ -53,15 +57,24 @@ const getAdmin = async (id: number): Promise<Admin | null> => {
   return admin
 }
 
-const updateAdmin = async (id: number, body: AdminBody): Promise<BaseAdmin | null> => {
+const updateAdmin = async (id: number, body: AdminBody, confirmToken?: string): Promise<BaseAdmin | null> => {
   const editAdmin = await prisma.admin.update({
     where: { id },
     data: {
       name: body.name,
       email: body.email,
-      password: body.password
+      password: body.password,
+      confirmToken: confirmToken
     }
   })
+  if (body.email) {
+    await prisma.admin.update({
+      where: { id },
+      data: {
+        confirm: false
+      }
+    })
+  }
   return editAdmin
 }
 

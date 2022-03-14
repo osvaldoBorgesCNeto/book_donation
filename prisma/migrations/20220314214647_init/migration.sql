@@ -5,6 +5,8 @@ CREATE TABLE "Admin" (
     "email" TEXT NOT NULL,
     "user" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "confirmToken" TEXT NOT NULL,
+    "confirm" BOOLEAN NOT NULL,
 
     CONSTRAINT "Admin_pkey" PRIMARY KEY ("id")
 );
@@ -41,6 +43,9 @@ CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_user_key" ON "Admin"("user");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_confirmToken_key" ON "Admin"("confirmToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Institution_name_key" ON "Institution"("name");

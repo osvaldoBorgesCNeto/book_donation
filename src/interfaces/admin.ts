@@ -6,6 +6,7 @@ export interface BaseAdmin {
 
 export interface AdminBody extends BaseAdmin {
   password: string
+  confirmToken?: string
 }
 
 export interface Admin extends BaseAdmin {

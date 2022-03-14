@@ -9,16 +9,47 @@ const verifyPasswordLength = (password: string): boolean => {
 const validateAdmin = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   const { email, user, password } = req.body
 
-  const isValidEmail = await verifyAtBank(email, 'email', 'admin')
-  if (isValidEmail) return next({ statusCode: 409, message: 'Email already registered' })
+  if (email) {
+    const isValidEmail = await verifyAtBank(email, 'email', 'admin')
+    if (isValidEmail) return next({ statusCode: 409, message: 'Email already registered' })
+  } else {
+    return next({ statusCode: 400, message: 'The \'email\' param is missing' })
+  }
 
-  const isValidUser = await verifyAtBank(user, 'user', 'admin')
-  if (isValidUser) return next({ statusCode: 409, message: 'User already registered' })
+  if (user) {
+    const isValidUser = await verifyAtBank(user, 'user', 'admin')
+    if (isValidUser) return next({ statusCode: 409, message: 'User already registered' })
+  } else {
+    return next({ statusCode: 400, message: 'The \'user\' param is missing' })
+  }
 
-  const passwordLength = verifyPasswordLength(password)
-  if (passwordLength) return next({ statusCode: 409, message: 'The password must be between 8 to 32 digit' })
+  if (password) {
+    const passwordLength = verifyPasswordLength(password)
+    if (passwordLength) return next({ statusCode: 409, message: 'The password must be between 8 to 32 digit' })
+  } else {
+    return next({ statusCode: 400, message: 'The \'password\' param is missing' })
+  }
 
   return next()
 }
 
-export default validateAdmin
+const validateAdminUpdate = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
+  const { email, password } = req.body
+
+  if (email) {
+    const isValidEmail = await verifyAtBank(email, 'email', 'admin')
+    if (isValidEmail) return next({ statusCode: 409, message: 'Email already registered' })
+  }
+
+  if (password) {
+    const passwordLength = verifyPasswordLength(password)
+    if (passwordLength) return next({ statusCode: 409, message: 'The password must be between 8 to 32 digit' })
+  }
+
+  return next()
+}
+
+export = {
+  validateAdmin,
+  validateAdminUpdate
+}

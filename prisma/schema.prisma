@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://book:donation@localhost:5432/mydb?schema=public"
 }
 
 model Admin {
@@ -16,6 +16,8 @@ model Admin {
   email String  @unique
   user  String  @unique
   password  String
+  confirmToken String @unique
+  confirm Boolean
   institution Institution[]
 }
 

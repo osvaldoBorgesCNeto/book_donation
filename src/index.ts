@@ -5,6 +5,7 @@ import Admin from './routes/admin'
 import Book from './routes/book'
 import Institution from './routes/institution'
 import erroMiddleware from './middlewares/erro'
+import VerifyRouter from './routes/verifyEmail'
 
 dotenv.config()
 
@@ -20,6 +21,8 @@ app.use('/admin', Admin)
 app.use('/book', Book)
 
 app.use('/institution', Institution)
+
+app.use('/', VerifyRouter)
 
 app.use(erroMiddleware)
 
