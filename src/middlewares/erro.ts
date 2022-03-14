@@ -9,4 +9,4 @@ const erroMiddleware = (err: HttpException, _req: Request, res: Response, _next:
   return res.status(status).json({ message: err.message })
 }
 
-export = erroMiddleware
+export default erroMiddleware

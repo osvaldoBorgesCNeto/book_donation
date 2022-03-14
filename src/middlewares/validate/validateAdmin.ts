@@ -1,35 +1,22 @@
-import { PrismaClient } from '@prisma/client'
 import { Request, Response, NextFunction } from 'express'
-const prisma = new PrismaClient()
+import verifyAtBank from './verifyAtBank.middleware'
 
-const validateEmail = async (email: string): Promise<boolean> => {
-  const result = await prisma.admin.findUnique({
-    where: {
-      email
-    }
-  })
-
-  return Boolean(result)
-}
-
-const validateUser = async (user: string): Promise<boolean> => {
-  const result = await prisma.admin.findUnique({
-    where: {
-      user
-    }
-  })
-
-  return Boolean(result)
+const verifyPasswordLength = (password: string): boolean => {
+  const regex = /^(?=.*[a-zA-Z0-9]).{8,32}$/
+  return Boolean(!regex.test(password))
 }
 
 const validateAdmin = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
-  const { email, user } = req.body
+  const { email, user, password } = req.body
 
-  const isValidEmail = await validateEmail(email)
+  const isValidEmail = await verifyAtBank(email, 'email', 'admin')
   if (isValidEmail) return next({ statusCode: 409, message: 'Email already registered' })
 
-  const isValidUser = await validateUser(user)
+  const isValidUser = await verifyAtBank(user, 'user', 'admin')
   if (isValidUser) return next({ statusCode: 409, message: 'User already registered' })
+
+  const passwordLength = verifyPasswordLength(password)
+  if (passwordLength) return next({ statusCode: 409, message: 'The password must be between 8 to 32 digit' })
 
   return next()
 }
