@@ -7,7 +7,9 @@
     "start": "ts-node .",
     "test": "jest --passWithNoTests --watch",
     "test:staged": "jest --passWithNoTests",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate": "npx prisma migrate dev",
+    "seed": "npx prisma db seed"
   },
   "keywords": [],
   "author": "",
@@ -38,5 +40,8 @@
     "express-rescue": "^1.1.31",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.7.2"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

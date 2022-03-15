@@ -1,5 +1,9 @@
 import jwt from 'jsonwebtoken'
-import config from '../../config/auth.config'
+import * as dotenv from 'dotenv'
+
+dotenv.config()
+
+const secretKey = process.env.JWT_SECRET
 
 const jwtConfig = {
   expiresIn: '24h',
@@ -7,7 +11,7 @@ const jwtConfig = {
 }
 
 const createToken = (user: object): string => {
-  const token = jwt.sign(user, config.secret, jwtConfig)
+  const token = jwt.sign(user, secretKey, jwtConfig)
   return token
 }
 

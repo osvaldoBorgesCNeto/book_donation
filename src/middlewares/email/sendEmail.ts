@@ -1,8 +1,10 @@
 import nodemailer from 'nodemailer'
-import config from '../../config/auth.config'
+import * as dotenv from 'dotenv'
 
-const user = config.user
-const pass = config.pass
+dotenv.config()
+
+const user = process.env.USER_EMAIL
+const pass = process.env.PASSWORD_EMAIL
 
 const transport = nodemailer.createTransport({
   host: 'smtp.office365.com',
